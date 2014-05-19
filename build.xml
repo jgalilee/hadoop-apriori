@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="HadoopApriori" basedir="." default="jar">
+	<property name="src.dir" value="src" />
+	<property name="classes.dir" value="classes" />
+	<property name="eclipseclasses.dir" value ="bin" />
+	<path id="hadoop-classpath">
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/common/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/common">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/hdfs">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/mapreduce">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/tools">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="/usr/lib/hadoop-2.2.0/share/hadoop/yarn">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	<target name="clean" description="Deletes all files in the classes directory.">
+		<delete dir="${classes.dir}" failonerror="false" />
+		<delete file="${ant.project.name}.jar" />
+	</target>
+	<target name="compile" description="Compile src directory into classes.">
+		<mkdir dir="${classes.dir}" />
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${classes.dir}" classpathref="hadoop-classpath" />
+	</target>
+	<target name="jar" description="Create jar with src folder structure." depends="compile">
+		<jar destfile="${ant.project.name}.jar" basedir="${classes.dir}" />
+	</target>
+</project>
