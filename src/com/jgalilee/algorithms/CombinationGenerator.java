@@ -1,5 +1,4 @@
 package com.jgalilee.algorithms;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -16,6 +15,8 @@ public class CombinationGenerator<T> {
 	private Stack<Integer> stack;
 
 	private List<T> source;
+
+	private StringBuffer sb = new StringBuffer();
 	private Integer[] next;
 
 	/**
@@ -24,7 +25,6 @@ public class CombinationGenerator<T> {
 	public CombinationGenerator() {
 		this.stack = new Stack<Integer>();
 	}
-
 
 	/**
 	 * 
@@ -55,6 +55,17 @@ public class CombinationGenerator<T> {
 
 	/**
 	 * 
+	 * @return
+	 */
+	public boolean hasNext() {
+		if (k == 0 || null == next || !hasNextCombination()) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 
 	 */
 	public void reset(Integer k, List<T> source) {
 		this.k = k;
@@ -71,24 +82,13 @@ public class CombinationGenerator<T> {
 	 * 
 	 * @return
 	 */
-	public boolean hasNext() {
-		if (k == 0 || null == next || !hasNextCombination()) {
-			return false;
-		}
-		return true;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public List<T> next() {
-		List<T> result = new ArrayList<T>();
+	public String next() {
+		sb.setLength(0);
 		for (Integer i : next) {
-			result.add(source.get(i));
+			sb.append(source.get(i));
 		}
 		next = nextCombination();
-		return result;
+		return sb.toString();
 	}
 	
 }

@@ -43,7 +43,6 @@ public class AprioriMapper extends Mapper<LongWritable, Text, Text, IntWritable>
 		Configuration config = context.getConfiguration();
 		k = config.getInt("apriori.iterations.current", 1);
 		if (k > 1) {
-			System.out.printf("Loading last cache %s.", (Object[]) context.getCacheFiles());
 			List<URI> uris = Arrays.asList(context.getCacheFiles());
 			for (URI uri : uris) {
 				Path p = new Path(uri);
@@ -57,7 +56,6 @@ public class AprioriMapper extends Mapper<LongWritable, Text, Text, IntWritable>
 					line = br.readLine();
 				}
 			}
-			//candidateChecker.load(uris);
 		}
 		return;
 	}
@@ -73,7 +71,7 @@ public class AprioriMapper extends Mapper<LongWritable, Text, Text, IntWritable>
 		if (k > 0) {
 			candidateGenerator.reset(k, items);
 			while (candidateGenerator.hasNext()) {
-				List<String> itemset = candidateGenerator.next();
+				String itemset = candidateGenerator.next();
 				if (!candidateChecker.valid(itemset)) {
 					return false;
 				}
@@ -90,7 +88,7 @@ public class AprioriMapper extends Mapper<LongWritable, Text, Text, IntWritable>
 		if (null != items) {
 			candidateGenerator.reset(k, items);
 			while (candidateGenerator.hasNext()) {
-				List<String> itemset = candidateGenerator.next();
+				String itemset = candidateGenerator.next();
 				try {
 					if (isFrequent(k-1, itemset)) {
 						candidate.set(getRecordFromItems(itemset));

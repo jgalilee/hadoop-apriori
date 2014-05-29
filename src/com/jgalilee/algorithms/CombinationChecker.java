@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,7 +16,7 @@ import java.util.Set;
 public class CombinationChecker {
 
 	protected String delimiter = " ";
-	protected Set<List<String>> candidatePreviousK = null;
+	protected Set<String> candidatePreviousK = null;
 	
 	/**
 	 * 
@@ -25,7 +24,7 @@ public class CombinationChecker {
 	 */
 	public CombinationChecker(String delimiter) {
 		this.delimiter = delimiter;
-		candidatePreviousK = new HashSet<List<String>>();
+		candidatePreviousK = new HashSet<>();
 	}
 	
 	/**
@@ -35,7 +34,7 @@ public class CombinationChecker {
 	 */
 	public void load(List<URI> uris) throws IOException {
 		candidatePreviousK.clear();
-		candidatePreviousK = new HashSet<List<String>>();
+		candidatePreviousK = new HashSet<>();
 		System.out.printf("Loading %s cache file(s).\n", uris);
 		for (URI uri : uris) {
 			System.out.printf("Reading cache file %s\n", uri.toString());
@@ -57,7 +56,7 @@ public class CombinationChecker {
 	 * @param transcation
 	 */
 	public void add(String txn) {
-		this.candidatePreviousK.add(Arrays.asList(txn.split(delimiter)));
+		this.candidatePreviousK.add(txn);
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class CombinationChecker {
 	 * @param itemset The itemset to check the validity of.
 	 * @return True if the itemset is valid, false otherwise.
 	 */
-	public boolean valid(List<String> itemset) {
+	public boolean valid(String itemset) {
 		return candidatePreviousK.contains(itemset);
 	}
 	
